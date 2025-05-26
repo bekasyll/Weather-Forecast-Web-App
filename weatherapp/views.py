@@ -1,3 +1,5 @@
+import random
+
 from django.http import HttpRequest
 from django.shortcuts import render
 import requests
@@ -51,7 +53,8 @@ def home(request: HttpRequest):
 
         data = requests.get(city_url).json()
         search_items = data.get("items")
-        image_url = search_items[2]['link']
+        n = random.randint(1, 5)
+        image_url = search_items[n]['link']
 
         context = {
             'form': form,
