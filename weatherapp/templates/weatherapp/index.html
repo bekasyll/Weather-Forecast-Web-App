@@ -1,0 +1,64 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{% static 'weatherapp/css/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+    />
+  </head>
+  <body
+    {% if error %}
+        style="background-image: url('https://images.pexels.com/photos/388415/pexels-photo-388415.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');"
+    {% else %}
+        style="background-image: url('{{ image_url }}'); "
+    {% endif %}
+  >
+    <div class="container">
+      <h1>Weather Forecast</h1>
+
+      <form method="POST">
+        {% csrf_token %}
+        <div>{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+            {{ f }}
+        {% endfor %}
+        <button class="btn" type="submit">Search</button>
+      </form>
+
+      <div class="weather">
+        <div class="left">
+          <h2>{{ temp }} &#176;C</h2>
+            {% if error %}
+            <h3 style="color: red">{{ error }}</h3>
+            {% endif %}
+          <h3>{{ city }}</h3>
+        </div>
+
+        <div class="right">
+          <div class="icon">
+            <p>
+              <img
+                src="https://openweathermap.org/img/w/{{ icon }}.png"
+                width="100px"
+              />
+            </p>
+          </div>
+
+          <div class="condition">
+            <p>{{ description }}</p>
+            <p>{{ day }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </body>
+</html>
